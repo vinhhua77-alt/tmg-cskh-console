@@ -1,0 +1,406 @@
+/* NCC Hub v3 — port từ ZALO-INTEGRATION/admin/workspace-ui/src/zalo-ops-override.css (workspace-ui
+   cũ, đang bị retire). Vá màu mặc định của @tmg/conversation-ui (bubble tin ĐẾN hardcode #374151 —
+   xám đen giữa nền cream sáng, nhìn như lỗi thật) + thêm class riêng cho panel "Trí nhớ công ty"
+   và nút/panel OCR trigger-review — 2 thứ package gốc không có.
+
+   RECONCILE MÀU (phiên port sang tmg-ncc-hub-ui): file gốc định nghĩa --tmg-cui-* bằng hex cứng,
+   NHƯNG app này đã có sẵn hệ theme brick/ink/cream riêng (src/styles/theme.css, --primary/
+   --secondary/--background/...) — cả 2 cùng gốc dev-ops-app design system nên nhiều giá trị TRÙNG
+   HỆT (cream #fefbf4, ink #263e94, brick #651009, danger #b3261e, success #1f7a4d, warning
+   #b06a00...). Những biến trùng HỆT đã đổi sang var(--...) tham chiếu theme.css — tránh 2 nguồn
+   hex song song dễ trôi lệch nhau, và tự động ăn theo .dark (file gốc KHÔNG có nhánh dark, giờ có
+   miễn phí). Biến KHÔNG trùng giá trị (--tmg-cui-muted, --tmg-cui-accent-hover, --tmg-cui-mention,
+   --tmg-cui-radius) giữ nguyên hex gốc — không có mapping "sạch" nào tương đương, ép vào sẽ đổi
+   sắc độ thật (ví dụ --tmg-cui-muted #8a7f74 ≠ --muted-foreground #5b5048 của app). */
+:root {
+  --tmg-cui-bg: var(--background); /* #fefbf4 cream — trùng hệt */
+  --tmg-cui-panel: var(--card); /* #ffffff paper — trùng hệt */
+  --tmg-cui-panel-soft: var(--muted); /* #f7f1e6 paper-2 — trùng hệt */
+  --tmg-cui-border: var(--border); /* #e7ded0 line — trùng hệt */
+  --tmg-cui-muted: #8a7f74; /* KHÔNG trùng --muted-foreground (#5b5048) — giữ hex gốc */
+  --tmg-cui-text: var(--foreground); /* #20160f ink-text — trùng hệt */
+  --tmg-cui-accent: var(--secondary); /* #263e94 ink — trùng hệt */
+  --tmg-cui-accent-hover: #36529c; /* không có token "secondary-hover" trong app — giữ hex gốc */
+  --tmg-cui-mention: #4a66b3; /* không có token tương đương — giữ hex gốc */
+  --tmg-cui-danger: var(--destructive); /* #b3261e danger — trùng hệt */
+  --tmg-cui-radius: 16px; /* khác --radius (12px) của app CÓ CHỦ Ý — bubble chat bo tròn hơn card */
+  --tmg-cui-font: var(--font-vietnam), 'JetBrains Mono', sans-serif;
+  --success: var(--chart-3); /* #1f7a4d — trùng hệt, theme.css đã chú thích "success" */
+  --warning: var(--chart-4); /* #b06a00 — trùng hệt, theme.css đã chú thích "warning" */
+  --danger: var(--destructive); /* #b3261e — trùng hệt */
+  --brick: var(--primary); /* #651009 — trùng hệt, theme.css đã chú thích "brick" */
+}
+
+/* Vá thật sau khi soi bằng browser thật (16/09): bảng mapping 12 biến --tmg-cui-* ở 05_SPEC
+   Mục 2.5 #10 chỉ phủ được cấu trúc top-level — package còn NHIỀU màu hardcode hex/rgb() không
+   qua biến nào cả (grep styles.css thấy ở message bubble, reply preview, recalled/system
+   message, composer preview/mention, media renderer dark overlay...). Quan trọng nhất — bubble
+   tin nhắn ĐẾN (`.tmg-cui-message__bubble`, mọi tin NCC gửi vào) hardcode `#374151` (xám đen) —
+   không đổi thì mọi tin NCC hiện bong bóng tối giữa nền cream sáng, nhìn như lỗi thật. Đã vá
+   đúng nhóm hiển thị trong luồng TASK-B1 (bubble/reply/recalled/system). CHƯA vá phần composer
+   preview reply/edit + media renderer dark theme — App.tsx hiện KHÔNG dùng mention/reply/edit/
+   media (chỉ text thuần từ /api/messages), nên các phần đó chưa xuất hiện trên UI thật; ghi lại
+   làm known gap cho TASK-B2 (khi Composer mở rộng props theo 05_SPEC Mục 2.5 #11). */
+.tmg-cui-message__bubble {
+  background: var(--tmg-cui-panel-soft);
+}
+.tmg-cui-message__reply {
+  background: color-mix(in srgb, var(--tmg-cui-text) 6%, transparent);
+  border-left-color: var(--tmg-cui-accent);
+}
+.tmg-cui-message__reply strong {
+  color: var(--tmg-cui-accent);
+}
+.tmg-cui-message__status--failed {
+  color: var(--danger);
+}
+.tmg-cui-message__recalled,
+.tmg-cui-system-message {
+  background: color-mix(in srgb, var(--tmg-cui-text) 8%, transparent);
+  border-color: var(--tmg-cui-border);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* NCC Hub v3 — KHÔNG áp lại `body { background/color/font }` như bản gốc: trang này sống bên
+   trong shell chung (AppSidebar + SidebarInset), body đã có bg-background/text-foreground từ
+   src/styles/index.css áp cho toàn app. */
+
+/* Full-bleed bên trong SidebarInset — xem src/features/chats-ncc/index.tsx (data-layout="fixed"
+   để SidebarInset tự tính h-svh, .workspace chỉ cần lấp đầy 100% khối cha đó, KHÔNG 100vh —
+   variant sidebar "inset" cộng margin/border nên 100vh có thể tràn ra ngoài khối đã bo góc). */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  gap: 16px;
+  height: 100%;
+  padding: 16px;
+}
+
+.workspace-sidebar,
+.workspace-main {
+  min-height: 0;
+}
+
+.workspace-sidebar {
+  background: var(--tmg-cui-panel);
+  border: 1px solid var(--tmg-cui-border);
+  border-radius: var(--tmg-cui-radius);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workspace-search {
+  border-bottom: 1px solid var(--tmg-cui-border);
+  padding: 14px;
+}
+
+.workspace-title {
+  font-size: 15px;
+  font-weight: 650;
+  margin: 0 0 10px;
+}
+
+.workspace-search-form {
+  display: flex;
+  gap: 8px;
+}
+
+.workspace-search input {
+  background: var(--tmg-cui-panel-soft);
+  border: 1px solid var(--tmg-cui-border);
+  border-radius: 10px;
+  color: var(--tmg-cui-text);
+  flex: 1;
+  font: 13px/1.4 var(--tmg-cui-font);
+  min-width: 0;
+  padding: 9px 10px;
+}
+
+.workspace-search button {
+  background: var(--tmg-cui-accent);
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  font: 600 13px/1 var(--tmg-cui-font);
+  padding: 9px 12px;
+}
+
+.workspace-search button:disabled {
+  background: var(--tmg-cui-muted);
+  cursor: wait;
+}
+
+.workspace-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.workspace-result {
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+  gap: 3px;
+  padding: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.workspace-result:hover,
+.workspace-result.is-selected {
+  background: var(--tmg-cui-panel-soft);
+}
+
+.workspace-result strong,
+.workspace-result span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-result strong {
+  font-size: 13px;
+}
+
+.workspace-result span {
+  color: var(--tmg-cui-muted);
+  font-size: 12px;
+}
+
+.workspace-note {
+  color: var(--tmg-cui-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 16px;
+}
+
+.workspace-error {
+  background: color-mix(in srgb, var(--danger) 10%, var(--tmg-cui-panel));
+  border-left: 3px solid var(--danger);
+  color: var(--danger);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 12px;
+  padding: 10px 12px;
+}
+
+.workspace-chat {
+  height: 100%;
+}
+
+.workspace-empty {
+  align-items: center;
+  color: var(--tmg-cui-muted);
+  display: flex;
+  font-size: 13px;
+  height: 100%;
+  justify-content: center;
+  line-height: 1.6;
+  padding: 24px;
+  text-align: center;
+}
+
+.workspace-status {
+  color: var(--tmg-cui-muted);
+  font-size: 12px;
+  padding: 0 16px 12px;
+}
+
+.workspace-send-error {
+  color: var(--danger);
+  font-size: 12px;
+  padding: 0 16px 12px;
+}
+
+/* TASK-C3 Zalo Local Companion — panel "Trí nhớ công ty" (D-024). */
+.workspace-memory {
+  background: var(--tmg-cui-panel-soft);
+  border: 1px solid var(--tmg-cui-border);
+  border-radius: var(--tmg-cui-radius);
+  margin: 0 16px 12px;
+  padding: 12px 14px;
+}
+.workspace-memory__title {
+  font-size: 13px;
+  font-weight: 650;
+  margin: 0 0 6px;
+}
+.workspace-memory__list {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.workspace-memory__item {
+  background: var(--tmg-cui-panel);
+  border: 1px solid var(--tmg-cui-border);
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 8px 10px;
+}
+.workspace-memory__badge {
+  background: var(--tmg-cui-accent);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  margin-right: 6px;
+  padding: 2px 6px;
+}
+.workspace-memory__meta {
+  color: var(--tmg-cui-muted);
+  font-size: 11px;
+}
+.workspace-memory__delete {
+  background: none;
+  border: 0;
+  color: var(--danger);
+  cursor: pointer;
+  float: right;
+  font-size: 11px;
+}
+.workspace-memory__form {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+.workspace-memory__form select,
+.workspace-memory__form input,
+.workspace-memory__form textarea {
+  background: var(--tmg-cui-panel);
+  border: 1px solid var(--tmg-cui-border);
+  border-radius: 8px;
+  color: var(--tmg-cui-text);
+  font: 13px/1.4 var(--tmg-cui-font);
+  padding: 6px 8px;
+  resize: vertical;
+}
+.workspace-memory__form button {
+  background: var(--tmg-cui-accent);
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font: 600 13px/1 var(--tmg-cui-font);
+  justify-self: start;
+  padding: 7px 14px;
+}
+.workspace-memory__form button:disabled {
+  background: var(--tmg-cui-muted);
+  cursor: wait;
+}
+
+/* TASK-C2 OCR (Phase 2, D-024) — nút trích + panel review gắn ngay dưới tin ảnh. */
+.workspace-ocr-trigger {
+  align-self: flex-start;
+  background: var(--tmg-cui-panel-soft);
+  border: 1px solid var(--tmg-cui-border);
+  border-radius: 8px;
+  color: var(--tmg-cui-text);
+  cursor: pointer;
+  font: 12px/1.4 var(--tmg-cui-font);
+  margin: -4px 0 6px;
+  padding: 4px 10px;
+}
+.workspace-ocr-trigger--outgoing { align-self: flex-end; }
+.workspace-ocr-review {
+  background: var(--tmg-cui-panel-soft);
+  border: 1px solid var(--tmg-cui-border);
+  border-radius: 10px;
+  margin: -4px 0 8px;
+  max-width: min(78%, 680px);
+  padding: 8px 10px;
+}
+.workspace-ocr-review--outgoing { align-self: flex-end; }
+.workspace-ocr-review--incoming { align-self: flex-start; margin-left: 36px; }
+.workspace-ocr-review__field {
+  align-items: center;
+  display: grid;
+  gap: 6px;
+  grid-template-columns: minmax(80px, 40%) 1fr;
+  margin: 4px 0;
+}
+.workspace-ocr-review__label {
+  color: var(--tmg-cui-muted);
+  font-size: 11px;
+}
+.workspace-ocr-review__field input {
+  background: var(--tmg-cui-panel);
+  border: 1px solid var(--tmg-cui-border);
+  border-radius: 6px;
+  color: var(--tmg-cui-text);
+  font: 12px var(--tmg-cui-font);
+  padding: 4px 6px;
+}
+.workspace-ocr-review__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.workspace-ocr-review__actions button {
+  border-radius: 6px;
+  cursor: pointer;
+  font: 600 12px var(--tmg-cui-font);
+  padding: 5px 10px;
+}
+.workspace-ocr-review__actions button:first-child {
+  background: var(--tmg-cui-accent);
+  border: 0;
+  color: #fff;
+}
+.workspace-ocr-review__actions button:last-child {
+  background: transparent;
+  border: 1px solid var(--tmg-cui-border);
+  color: var(--tmg-cui-text);
+}
+.workspace-ocr-review__error {
+  color: var(--danger);
+  font-size: 12px;
+}
+
+/* Attribution (AC#3) — dòng chữ nhỏ dưới bubble, KHÔNG badge loè loẹt (05_SPEC Mục 5.2). */
+.workspace-attribution {
+  color: var(--tmg-cui-muted);
+  font-size: 10px;
+  margin: -4px 0 6px;
+  max-width: min(78%, 680px);
+}
+.workspace-attribution--outgoing { align-self: flex-end; text-align: right; }
+.workspace-attribution--incoming { align-self: flex-start; margin-left: 36px; text-align: left; }
+
+@media (max-width: 900px) {
+  .workspace {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100%;
+  }
+
+  /* FIX (báo cáo live-verify /v3 19/09): trước là `max-height: 45vh` — chỉ là TRẦN, không
+     phải kích thước THẬT, nên .workspace-sidebar (flex column) co về đúng chiều cao nội dung
+     (search form + khoảng trống) chứ không "cao tới 45vh rồi mới cắt". Hệ quả: đứa con
+     `.workspace-results{flex:1}` không có khoảng trống nào để giãn vào → co về đúng padding
+     (16px), nút kết quả bị `overflow:auto` cắt mất dù nằm đúng trong DOM/accessibility tree.
+     Chỉ xảy ra dưới 900px vì lúc đó `.workspace` đổi `height:100%` → `height:auto` (không còn
+     ép grid row giãn hết chiều cao) — trên desktop (≥900px) cột giữ `height:100%` nên
+     align-items:stretch của grid tự lo, không cần sửa. Đổi sang `height:45vh` giống hệt pattern
+     `.workspace-main{height:70vh}` ngay dưới — có kích thước THẬT để flex con bên trong giãn
+     vào, .workspace-sidebar tự overflow:hidden bên ngoài + .workspace-results overflow-y:auto
+     bên trong vẫn lo phần cuộn khi danh sách dài hơn 45vh. */
+  .workspace-sidebar {
+    height: 45vh;
+  }
+
+  .workspace-main {
+    height: 70vh;
+  }
+}

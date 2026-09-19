@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Chats } from '@/features/chats'
+import { ChatsPage } from '@/features/chats-ncc'
 
 export const Route = createFileRoute('/_authenticated/chats/')({
-  component: Chats,
+  component: ChatsPage,
 })
