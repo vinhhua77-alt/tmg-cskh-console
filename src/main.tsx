@@ -8,8 +8,9 @@ import {
 } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { useAuthStore } from '@/stores/auth-store'
+import { goToOsLogin } from '@/lib/ncc-auth'
 import { handleServerError } from '@/lib/handle-server-error'
+import { NccAuthGate } from '@/components/ncc-auth-gate'
 import { DirectionProvider } from './context/direction-provider'
 import { FontProvider } from './context/font-provider'
 import { ThemeProvider } from './context/theme-provider'
@@ -52,10 +53,8 @@ const queryClient = new QueryClient({
     onError: (error) => {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          toast.error('Session expired!')
-          useAuthStore.getState().auth.reset()
-          const redirect = `${router.history.location.href}`
-          router.navigate({ to: '/sign-in', search: { redirect } })
+          toast.error('Phiên đăng nhập đã hết hạn')
+          goToOsLogin()
         }
         if (error.response?.status === 500) {
           toast.error('Internal Server Error!')
@@ -72,9 +71,14 @@ const queryClient = new QueryClient({
   }),
 })
 
+// NCC Hub v3 — basepath khớp với vite.config.ts BASE_PATH (staging /v3, cutover sau đổi về '/').
+const rawBase = import.meta.env.VITE_BASE_PATH || '/'
+const basepath = rawBase === '/' ? '/' : rawBase.replace(/\/$/, '')
+
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  basepath,
   context: { queryClient },
   defaultPreload: 'intent',
   defaultPreloadStaleTime: 0,
@@ -97,7 +101,9 @@ if (!rootElement.innerHTML) {
         <ThemeProvider>
           <FontProvider>
             <DirectionProvider>
-              <RouterProvider router={router} />
+              <NccAuthGate>
+                <RouterProvider router={router} />
+              </NccAuthGate>
             </DirectionProvider>
           </FontProvider>
         </ThemeProvider>

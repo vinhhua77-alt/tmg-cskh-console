@@ -1,5 +1,4 @@
-import { useNavigate, useLocation } from '@tanstack/react-router'
-import { useAuthStore } from '@/stores/auth-store'
+import { goToOsLogin, useNccAuthStore } from '@/lib/ncc-auth'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 
 interface SignOutDialogProps {
@@ -8,19 +7,13 @@ interface SignOutDialogProps {
 }
 
 export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { auth } = useAuthStore()
+  const reset = useNccAuthStore((s) => s.reset)
 
   const handleSignOut = () => {
-    auth.reset()
-    // Preserve current location for redirect after sign-in
-    const currentPath = location.href
-    navigate({
-      to: '/sign-in',
-      search: { redirect: currentPath },
-      replace: true,
-    })
+    // Không có session cục bộ để "đăng xuất" — chỉ xoá token đã lưu, rồi trả về OS login
+    // (session thật nằm ở os-core). Giữ đúng mô hình auth cũ, không tự nghĩ flow mới.
+    reset()
+    goToOsLogin()
   }
 
   return (

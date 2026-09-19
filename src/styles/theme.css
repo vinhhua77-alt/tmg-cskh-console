@@ -1,66 +1,78 @@
+/* NCC Hub v3 — theme brick/ink/cream, port thẳng từ dev-ops-app/design-ref/colors_and_type.css
+   (palette gốc Đông Nguyên: brick=primary, ink=secondary brand, cream=nền trang, paper=card). */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.75rem;
+  --background: #fefbf4; /* cream */
+  --foreground: #20160f; /* ink-text */
+  --card: #ffffff; /* paper */
+  --card-foreground: #20160f;
+  --popover: #ffffff;
+  --popover-foreground: #20160f;
+  --primary: #651009; /* brick */
+  --primary-foreground: #fefbf4;
+  --secondary: #263e94; /* ink */
+  --secondary-foreground: #fefbf4;
+  --muted: #f7f1e6; /* paper-2 */
+  --muted-foreground: #5b5048; /* fg-2 */
+  --accent: #f0e8d9; /* paper-3 */
+  --accent-foreground: #20160f;
+  --destructive: #b3261e; /* danger */
+  --border: #e7ded0; /* line */
+  --input: #e7ded0;
+  --ring: #d98a82; /* brick-300 */
+  --chart-1: #651009; /* brick */
+  --chart-2: #263e94; /* ink */
+  --chart-3: #1f7a4d; /* success */
+  --chart-4: #b06a00; /* warning */
+  --chart-5: #7a3ca6; /* pride */
 
-  --sidebar: var(--background);
-  --sidebar-foreground: var(--foreground);
+  --sidebar: #fbf6ec; /* paper-warm */
+  --sidebar-foreground: #20160f;
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
-  --sidebar-accent: var(--accent);
-  --sidebar-accent-foreground: var(--accent-foreground);
-  --sidebar-border: var(--border);
-  --sidebar-ring: var(--ring);
+  --sidebar-accent: #f0e8d9;
+  --sidebar-accent-foreground: #20160f;
+  --sidebar-border: #e7ded0;
+  --sidebar-ring: #d98a82;
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.14 0.04 259.21);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  --background: #1a1410;
+  --foreground: #f3ddd9;
+  --card: #241c16;
+  --card-foreground: #f3ddd9;
+  --popover: #241c16;
+  --popover-foreground: #f3ddd9;
+  --primary: #d98a82; /* brick-300 — sáng hơn để đủ tương phản trên nền tối */
+  --primary-foreground: #20160f;
+  --secondary: #9aabd8; /* ink-300 */
+  --secondary-foreground: #20160f;
+  --muted: #2b2219;
+  --muted-foreground: #b4a99c;
+  --accent: #362a1f;
+  --accent-foreground: #f3ddd9;
+  --destructive: #e08a83;
+  --border: rgba(243, 221, 217, 0.12);
+  --input: rgba(243, 221, 217, 0.16);
+  --ring: #a63227;
+  --chart-1: #d98a82;
+  --chart-2: #9aabd8;
+  --chart-3: #4fd18f;
+  --chart-4: #e0a95c;
+  --chart-5: #b58ad6;
+
+  --sidebar: #1f1712;
+  --sidebar-foreground: #f3ddd9;
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: #362a1f;
+  --sidebar-accent-foreground: #f3ddd9;
+  --sidebar-border: rgba(243, 221, 217, 0.12);
+  --sidebar-ring: #a63227;
 }
 
 @theme inline {
+  --font-vietnam: 'Be Vietnam Pro', 'sans-serif';
   --font-inter: 'Inter', 'sans-serif';
   --font-manrope: 'Manrope', 'sans-serif';
 

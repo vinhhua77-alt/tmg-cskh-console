@@ -1,4 +1,5 @@
 import { useLayout } from '@/context/layout-provider'
+import { useNccAuthStore } from '@/lib/ncc-auth'
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +15,15 @@ import { TeamSwitcher } from './team-switcher'
 
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
+  const osUser = useNccAuthStore((s) => s.user)
+  const user = osUser
+    ? {
+        name: osUser.name || osUser.email,
+        email: osUser.email,
+        avatar: '',
+      }
+    : sidebarData.user
+
   return (
     <Sidebar collapsible={collapsible} variant={variant}>
       <SidebarHeader>
@@ -29,7 +39,7 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={sidebarData.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

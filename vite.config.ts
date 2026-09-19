@@ -6,8 +6,13 @@ import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { playwright } from '@vitest/browser-playwright'
 
+// NCC Hub v3 — base path cấu hình qua env, KHÔNG hardcode: staging chạy dưới /v3/ (song song bản
+// cũ), cutover sau chuyển về '/' chỉ bằng biến môi trường, không sửa code. Xem admin/console-ui/README.md.
+const BASE_PATH = process.env.VITE_BASE_PATH || '/'
+
 // https://vite.dev/config/
 export default defineConfig({
+  base: BASE_PATH,
   plugins: [
     tanstackRouter({
       target: 'react',
