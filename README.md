@@ -1,3 +1,13 @@
+> **🗄️ SUPERSEDED (20/09/2026) — KHÔNG tiếp tục build.** Repo này là "CSKH Console" (seed từ
+> `tmg-ncc-hub-ui`, không phải fork chính thức — 1 upstream chỉ fork 1 lần/account GitHub) cho
+> chatbot Zalo OA khách hàng. CEO chốt dùng **Harasocial** (Haravan Social, omnichannel có sẵn:
+> Facebook/Instagram/TikTok/Zalo OA nhiều trang, tự trả lời/chốt đơn) thay vì tool riêng — xem
+> `~/CLAUDE/00_INBOX/2_DANG_LAM/ZALO/07_TMG_Zalo_OA_CustomerChatbot_PROPOSAL_v0.1.md`. Domain
+> `cskh.vinhhua.com` đã gỡ khỏi production. Giữ code (không xoá) vì Harasocial không đụng được
+> brand ngoài Haravan (BMF/CukCuk) — có thể cần lại nếu case đó phát sinh.
+>
+> README gốc dưới đây là của template `shadcn-admin` (chưa từng sửa), không mô tả app này.
+
 # Shadcn Admin Dashboard
 
 Admin Dashboard UI crafted with Shadcn and Vite. Built with responsiveness and accessibility in mind.
