@@ -26,6 +26,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    // CSKH Console — dev proxy /api sang backend ZALO-CSKH (repo khác, chạy process riêng,
+    // xem ~/TMG_APPS/ZALO-CSKH/server.js). Console này KHÔNG dùng chung backend với NCC Hub.
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3030',
+        changeOrigin: true,
+      },
+    },
+  },
   test: {
     silent: 'passed-only',
     unstubEnvs: true,

@@ -1,4 +1,3 @@
-import { Link } from '@tanstack/react-router'
 import useDialogState from '@/hooks/use-dialog-state'
 import { useNccAuthStore } from '@/lib/ncc-auth'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -6,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -47,12 +45,8 @@ export function ProfileDropdown() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem asChild>
-              <Link to='/settings'>Cài đặt</Link>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
+          {/* CSKH Console — bỏ mục "Cài đặt" trỏ /settings (route Cài đặt của NCC Hub đã bị
+              xoá, không có trang tương đương ở CSKH MVP này — xem việc A trong brief). */}
           <DropdownMenuItem variant='destructive' onClick={() => setOpen(true)}>
             Đăng xuất
           </DropdownMenuItem>

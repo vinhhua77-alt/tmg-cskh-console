@@ -16,17 +16,9 @@ import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
 import { Route as errors403RouteImport } from './routes/(errors)/403'
 import { Route as errors401RouteImport } from './routes/(errors)/401'
-import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
-import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
-import { Route as AuthenticatedOrdersIndexRouteImport } from './routes/_authenticated/orders/index'
-import { Route as AuthenticatedNccIndexRouteImport } from './routes/_authenticated/ncc/index'
+import { Route as AuthenticatedOrderLookupIndexRouteImport } from './routes/_authenticated/order-lookup/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
-import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
-import { Route as AuthenticatedSettingsUsersRouteImport } from './routes/_authenticated/settings/users'
-import { Route as AuthenticatedSettingsSystemRouteImport } from './routes/_authenticated/settings/system'
-import { Route as AuthenticatedSettingsSafetyRouteImport } from './routes/_authenticated/settings/safety'
-import { Route as AuthenticatedSettingsLogRouteImport } from './routes/_authenticated/settings/log'
-import { Route as AuthenticatedSettingsHealthRouteImport } from './routes/_authenticated/settings/health'
+import { Route as AuthenticatedCskhInboxIndexRouteImport } from './routes/_authenticated/cskh-inbox/index'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -63,69 +55,23 @@ const errors401Route = errors401RouteImport.update({
   path: '/401',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedSettingsRouteRoute =
-  AuthenticatedSettingsRouteRouteImport.update({
-    id: '/settings',
-    path: '/settings',
+const AuthenticatedOrderLookupIndexRoute =
+  AuthenticatedOrderLookupIndexRouteImport.update({
+    id: '/order-lookup/',
+    path: '/order-lookup/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedSettingsIndexRoute =
-  AuthenticatedSettingsIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
-const AuthenticatedOrdersIndexRoute =
-  AuthenticatedOrdersIndexRouteImport.update({
-    id: '/orders/',
-    path: '/orders/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNccIndexRoute = AuthenticatedNccIndexRouteImport.update({
-  id: '/ncc/',
-  path: '/ncc/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
     id: '/help-center/',
     path: '/help-center/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
-  id: '/chats/',
-  path: '/chats/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSettingsUsersRoute =
-  AuthenticatedSettingsUsersRouteImport.update({
-    id: '/users',
-    path: '/users',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
-const AuthenticatedSettingsSystemRoute =
-  AuthenticatedSettingsSystemRouteImport.update({
-    id: '/system',
-    path: '/system',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
-const AuthenticatedSettingsSafetyRoute =
-  AuthenticatedSettingsSafetyRouteImport.update({
-    id: '/safety',
-    path: '/safety',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
-const AuthenticatedSettingsLogRoute =
-  AuthenticatedSettingsLogRouteImport.update({
-    id: '/log',
-    path: '/log',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
-const AuthenticatedSettingsHealthRoute =
-  AuthenticatedSettingsHealthRouteImport.update({
-    id: '/health',
-    path: '/health',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
+const AuthenticatedCskhInboxIndexRoute =
+  AuthenticatedCskhInboxIndexRouteImport.update({
+    id: '/cskh-inbox/',
+    path: '/cskh-inbox/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedErrorsErrorRoute =
   AuthenticatedErrorsErrorRouteImport.update({
@@ -136,23 +82,15 @@ const AuthenticatedErrorsErrorRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
-  '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/401': typeof errors401Route
   '/403': typeof errors403Route
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
-  '/settings/health': typeof AuthenticatedSettingsHealthRoute
-  '/settings/log': typeof AuthenticatedSettingsLogRoute
-  '/settings/safety': typeof AuthenticatedSettingsSafetyRoute
-  '/settings/system': typeof AuthenticatedSettingsSystemRoute
-  '/settings/users': typeof AuthenticatedSettingsUsersRoute
-  '/chats/': typeof AuthenticatedChatsIndexRoute
+  '/cskh-inbox/': typeof AuthenticatedCskhInboxIndexRoute
   '/help-center/': typeof AuthenticatedHelpCenterIndexRoute
-  '/ncc/': typeof AuthenticatedNccIndexRoute
-  '/orders/': typeof AuthenticatedOrdersIndexRoute
-  '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/order-lookup/': typeof AuthenticatedOrderLookupIndexRoute
 }
 export interface FileRoutesByTo {
   '/401': typeof errors401Route
@@ -162,21 +100,13 @@ export interface FileRoutesByTo {
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
-  '/settings/health': typeof AuthenticatedSettingsHealthRoute
-  '/settings/log': typeof AuthenticatedSettingsLogRoute
-  '/settings/safety': typeof AuthenticatedSettingsSafetyRoute
-  '/settings/system': typeof AuthenticatedSettingsSystemRoute
-  '/settings/users': typeof AuthenticatedSettingsUsersRoute
-  '/chats': typeof AuthenticatedChatsIndexRoute
+  '/cskh-inbox': typeof AuthenticatedCskhInboxIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
-  '/ncc': typeof AuthenticatedNccIndexRoute
-  '/orders': typeof AuthenticatedOrdersIndexRoute
-  '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/order-lookup': typeof AuthenticatedOrderLookupIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/(errors)/401': typeof errors401Route
   '/(errors)/403': typeof errors403Route
   '/(errors)/404': typeof errors404Route
@@ -184,38 +114,23 @@ export interface FileRoutesById {
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
-  '/_authenticated/settings/health': typeof AuthenticatedSettingsHealthRoute
-  '/_authenticated/settings/log': typeof AuthenticatedSettingsLogRoute
-  '/_authenticated/settings/safety': typeof AuthenticatedSettingsSafetyRoute
-  '/_authenticated/settings/system': typeof AuthenticatedSettingsSystemRoute
-  '/_authenticated/settings/users': typeof AuthenticatedSettingsUsersRoute
-  '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
+  '/_authenticated/cskh-inbox/': typeof AuthenticatedCskhInboxIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
-  '/_authenticated/ncc/': typeof AuthenticatedNccIndexRoute
-  '/_authenticated/orders/': typeof AuthenticatedOrdersIndexRoute
-  '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/order-lookup/': typeof AuthenticatedOrderLookupIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/settings'
     | '/401'
     | '/403'
     | '/404'
     | '/500'
     | '/503'
     | '/errors/$error'
-    | '/settings/health'
-    | '/settings/log'
-    | '/settings/safety'
-    | '/settings/system'
-    | '/settings/users'
-    | '/chats/'
+    | '/cskh-inbox/'
     | '/help-center/'
-    | '/ncc/'
-    | '/orders/'
-    | '/settings/'
+    | '/order-lookup/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/401'
@@ -225,20 +140,12 @@ export interface FileRouteTypes {
     | '/503'
     | '/'
     | '/errors/$error'
-    | '/settings/health'
-    | '/settings/log'
-    | '/settings/safety'
-    | '/settings/system'
-    | '/settings/users'
-    | '/chats'
+    | '/cskh-inbox'
     | '/help-center'
-    | '/ncc'
-    | '/orders'
-    | '/settings'
+    | '/order-lookup'
   id:
     | '__root__'
     | '/_authenticated'
-    | '/_authenticated/settings'
     | '/(errors)/401'
     | '/(errors)/403'
     | '/(errors)/404'
@@ -246,16 +153,9 @@ export interface FileRouteTypes {
     | '/(errors)/503'
     | '/_authenticated/'
     | '/_authenticated/errors/$error'
-    | '/_authenticated/settings/health'
-    | '/_authenticated/settings/log'
-    | '/_authenticated/settings/safety'
-    | '/_authenticated/settings/system'
-    | '/_authenticated/settings/users'
-    | '/_authenticated/chats/'
+    | '/_authenticated/cskh-inbox/'
     | '/_authenticated/help-center/'
-    | '/_authenticated/ncc/'
-    | '/_authenticated/orders/'
-    | '/_authenticated/settings/'
+    | '/_authenticated/order-lookup/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -318,32 +218,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof errors401RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings/': {
-      id: '/_authenticated/settings/'
-      path: '/'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/orders/': {
-      id: '/_authenticated/orders/'
-      path: '/orders'
-      fullPath: '/orders/'
-      preLoaderRoute: typeof AuthenticatedOrdersIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/ncc/': {
-      id: '/_authenticated/ncc/'
-      path: '/ncc'
-      fullPath: '/ncc/'
-      preLoaderRoute: typeof AuthenticatedNccIndexRouteImport
+    '/_authenticated/order-lookup/': {
+      id: '/_authenticated/order-lookup/'
+      path: '/order-lookup'
+      fullPath: '/order-lookup/'
+      preLoaderRoute: typeof AuthenticatedOrderLookupIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/help-center/': {
@@ -353,47 +232,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHelpCenterIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/chats/': {
-      id: '/_authenticated/chats/'
-      path: '/chats'
-      fullPath: '/chats/'
-      preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
+    '/_authenticated/cskh-inbox/': {
+      id: '/_authenticated/cskh-inbox/'
+      path: '/cskh-inbox'
+      fullPath: '/cskh-inbox/'
+      preLoaderRoute: typeof AuthenticatedCskhInboxIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings/users': {
-      id: '/_authenticated/settings/users'
-      path: '/users'
-      fullPath: '/settings/users'
-      preLoaderRoute: typeof AuthenticatedSettingsUsersRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/settings/system': {
-      id: '/_authenticated/settings/system'
-      path: '/system'
-      fullPath: '/settings/system'
-      preLoaderRoute: typeof AuthenticatedSettingsSystemRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/settings/safety': {
-      id: '/_authenticated/settings/safety'
-      path: '/safety'
-      fullPath: '/settings/safety'
-      preLoaderRoute: typeof AuthenticatedSettingsSafetyRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/settings/log': {
-      id: '/_authenticated/settings/log'
-      path: '/log'
-      fullPath: '/settings/log'
-      preLoaderRoute: typeof AuthenticatedSettingsLogRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/settings/health': {
-      id: '/_authenticated/settings/health'
-      path: '/health'
-      fullPath: '/settings/health'
-      preLoaderRoute: typeof AuthenticatedSettingsHealthRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
     '/_authenticated/errors/$error': {
       id: '/_authenticated/errors/$error'
@@ -405,48 +249,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthenticatedSettingsRouteRouteChildren {
-  AuthenticatedSettingsHealthRoute: typeof AuthenticatedSettingsHealthRoute
-  AuthenticatedSettingsLogRoute: typeof AuthenticatedSettingsLogRoute
-  AuthenticatedSettingsSafetyRoute: typeof AuthenticatedSettingsSafetyRoute
-  AuthenticatedSettingsSystemRoute: typeof AuthenticatedSettingsSystemRoute
-  AuthenticatedSettingsUsersRoute: typeof AuthenticatedSettingsUsersRoute
-  AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
-}
-
-const AuthenticatedSettingsRouteRouteChildren: AuthenticatedSettingsRouteRouteChildren =
-  {
-    AuthenticatedSettingsHealthRoute: AuthenticatedSettingsHealthRoute,
-    AuthenticatedSettingsLogRoute: AuthenticatedSettingsLogRoute,
-    AuthenticatedSettingsSafetyRoute: AuthenticatedSettingsSafetyRoute,
-    AuthenticatedSettingsSystemRoute: AuthenticatedSettingsSystemRoute,
-    AuthenticatedSettingsUsersRoute: AuthenticatedSettingsUsersRoute,
-    AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
-  }
-
-const AuthenticatedSettingsRouteRouteWithChildren =
-  AuthenticatedSettingsRouteRoute._addFileChildren(
-    AuthenticatedSettingsRouteRouteChildren,
-  )
-
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
-  AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
+  AuthenticatedCskhInboxIndexRoute: typeof AuthenticatedCskhInboxIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
-  AuthenticatedNccIndexRoute: typeof AuthenticatedNccIndexRoute
-  AuthenticatedOrdersIndexRoute: typeof AuthenticatedOrdersIndexRoute
+  AuthenticatedOrderLookupIndexRoute: typeof AuthenticatedOrderLookupIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
-  AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
+  AuthenticatedCskhInboxIndexRoute: AuthenticatedCskhInboxIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
-  AuthenticatedNccIndexRoute: AuthenticatedNccIndexRoute,
-  AuthenticatedOrdersIndexRoute: AuthenticatedOrdersIndexRoute,
+  AuthenticatedOrderLookupIndexRoute: AuthenticatedOrderLookupIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

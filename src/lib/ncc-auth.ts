@@ -143,7 +143,7 @@ export async function runOsGate(): Promise<void> {
     const j = await r.json().catch(() => ({}))
     store.setStatus(
       'denied',
-      j.error || 'Tài khoản chưa được cấp quyền NCC Hub. Liên hệ SCM/IT để thêm.'
+      j.error || 'Tài khoản chưa được cấp quyền CSKH Console. Liên hệ SCM/IT để thêm.'
     )
     return
   }
